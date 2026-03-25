@@ -2,49 +2,428 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Simple Website</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Portfolio - Bento Grid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #faf8f5;
+            --bg-card: #ffffff;
+            --text-primary: #1a1614;
+            --text-secondary: #6b6560;
+            --accent-clay: #d4a574;
+            --accent-sage: #8b9d83;
+            --accent-ink: #2d3a4b;
+            --shadow-soft: 0 4px 24px rgba(26, 22, 20, 0.06);
+            --shadow-hover: 0 8px 32px rgba(26, 22, 20, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            grid-auto-rows: 280px;
+        }
+
+        .bento-item {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            animation: fadeInUp 0.8s ease-out backwards;
+        }
+
+        .bento-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-clay) 0%, var(--accent-sage) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .bento-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .bento-item:hover::before {
+            opacity: 0.08;
+        }
+
+        .bento-item > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .bento-item:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 2;
+            animation-delay: 0.1s;
+        }
+
+        .bento-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .bento-item:nth-child(3) {
+            grid-row: span 2;
+            animation-delay: 0.3s;
+        }
+
+        .bento-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .bento-item:nth-child(5) {
+            grid-column: span 2;
+            animation-delay: 0.5s;
+        }
+
+        .bento-item:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-clay), var(--accent-sage));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .bento-item:hover .icon {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .stat-number {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-clay), var(--accent-sage));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.4rem 1rem;
+            background: rgba(212, 165, 116, 0.1);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--accent-ink);
+            transition: all 0.3s ease;
+        }
+
+        .bento-item:hover .tag {
+            background: rgba(212, 165, 116, 0.2);
+            border-color: rgba(212, 165, 116, 0.5);
+        }
+
+        .feature-large {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .feature-large h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-clay), var(--accent-sage));
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            align-self: flex-start;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.3);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.2), rgba(139, 157, 131, 0.2));
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            opacity: 0.6;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .bento-item:nth-child(1),
+            .bento-item:nth-child(3),
+            .bento-item:nth-child(5) {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+
+        .background-decoration {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.1), transparent);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .bg-1 {
+            top: -200px;
+            right: -200px;
+        }
+
+        .bg-2 {
+            bottom: -200px;
+            left: -200px;
+            background: radial-gradient(circle, rgba(139, 157, 131, 0.1), transparent);
+        }
+    </style>
 </head>
 <body>
+    <div class="background-decoration bg-1"></div>
+    <div class="background-decoration bg-2"></div>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <h1 class="logo">MySite</h1>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-    </nav>
+    <div class="container">
+        <header class="header">
+            <h1>Creative Studio</h1>
+            <p class="subtitle">Crafting digital experiences with intention</p>
+        </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h2>Welcome to My Website</h2>
-        <p>Simple • Clean • Attractive Design</p>
-        <button>Get Started</button>
-    </section>
+        <div class="bento-grid">
+            <!-- Large Feature Card -->
+            <div class="bento-item">
+                <div class="feature-large">
+                    <div>
+                        <h2>Design that speaks, code that sings</h2>
+                        <p>We blend aesthetic precision with technical excellence to create experiences that resonate.</p>
+                    </div>
+                    <a href="#" class="cta-button">Start a Project</a>
+                </div>
+            </div>
 
-    <!-- Cards Section -->
-    <section class="cards">
-        <div class="card">
-            <h3>HTML</h3>
-            <p>Structure of the website.</p>
+            <!-- Stats Card -->
+            <div class="bento-item">
+                <div class="icon">🎯</div>
+                <div class="stat">
+                    <div class="stat-number">150+</div>
+                    <h3>Projects Delivered</h3>
+                    <p>With passion and precision</p>
+                </div>
+            </div>
+
+            <!-- Services Card -->
+            <div class="bento-item">
+                <div class="icon">✨</div>
+                <h3>Our Expertise</h3>
+                <div class="tag-list">
+                    <span class="tag">UI/UX Design</span>
+                    <span class="tag">Development</span>
+                    <span class="tag">Branding</span>
+                    <span class="tag">Strategy</span>
+                </div>
+            </div>
+
+            <!-- Process Card -->
+            <div class="bento-item">
+                <div class="icon">🌱</div>
+                <h3>Organic Process</h3>
+                <p>From initial concept to final deployment, we nurture ideas into fully-realized digital products through thoughtful iteration.</p>
+            </div>
+
+            <!-- Showcase Card -->
+            <div class="bento-item">
+                <div class="image-placeholder">🎨</div>
+                <h3>Latest Work</h3>
+                <p>Award-winning interfaces that push boundaries</p>
+            </div>
+
+            <!-- Contact Card -->
+            <div class="bento-item">
+                <div class="icon">💌</div>
+                <h3>Let's Collaborate</h3>
+                <p>hello@studio.design</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Open for new projects in 2024</p>
+            </div>
         </div>
-        <div class="card">
-            <h3>CSS</h3>
-            <p>Style and design of the website.</p>
-        </div>
-        <div class="card">
-            <h3>JavaScript</h3>
-            <p>Adds interactivity.</p>
-        </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2026 MySite | Designed by Arif</p>
-    </footer>
+    <script>
+        // Smooth parallax effect for background decorations
+        document.addEventListener('mousemove', (e) => {
+            const decorations = document.querySelectorAll('.background-decoration');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
 
+            decorations.forEach((decoration, index) => {
+                const speed = (index + 1) * 20;
+                const x = (mouseX - 0.5) * speed;
+                const y = (mouseY - 0.5) * speed;
+                decoration.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Add ripple effect on click
+        document.querySelectorAll('.bento-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    border-radius: 50%;
+                    background: rgba(212, 165, 116, 0.3);
+                    left: ${x}px;
+                    top: ${y}px;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
